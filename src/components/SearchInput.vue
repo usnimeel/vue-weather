@@ -29,10 +29,12 @@ const handleSearch = async () => {
         </form>
         <!-- Search suggestions -->
         <div class="bg-white my-2 rounded-lg shadow-lg">
-            <div v-for="place in results" :key="place.id">
-                <button class="px-3 my-2">
-                    {{ place.name }}, {{ place.region }}, {{ place.country }}
-                </button>
+            <div v-if="results !== null">
+                <div v-for="place in results" :key="place.id">
+                    <button class="px-3 my-2">
+                        {{ place.name }}, {{ place.region }}, {{ place.country }}
+                    </button>
+                </div>
             </div>
         </div>
     </div>
