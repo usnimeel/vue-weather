@@ -3,11 +3,19 @@ import { ref } from 'vue';
 
 const searchTerm= ref('')
 const results = ref(null)
+const weather = ref(null)
 const handleSearch = async () => {
     if (searchTerm.value !== '') {
         const res = await fetch(`http://api.weatherapi.com/v1/search.json?key=${import.meta.env.VITE_WEATHER_API}&q=${searchTerm.value}`)
         const data = await res.json()
         results.value = data
+    }
+}
+const getWeather = async (id) => {
+    if (weather.value !== '') {
+        const res = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${import.meta.env.VITE_WEATHER_API}&q=id:${id}&days=4&aqi=no&alerts=no`)
+        const data = await res.json()
+        weather.value = data
     }
 }
 </script>
@@ -31,11 +39,12 @@ const handleSearch = async () => {
         <div class="bg-white my-2 rounded-lg shadow-lg">
             <div v-if="results !== null">
                 <div v-for="place in results" :key="place.id">
-                    <button class="px-3 my-2">
+                    <button class="px-3 my-2" @click="getWeather(place.id)">
                         {{ place.name }}, {{ place.region }}, {{ place.country }}
                     </button>
                 </div>
             </div>
         </div>
+        {{ weather }}
     </div>
 </template>
